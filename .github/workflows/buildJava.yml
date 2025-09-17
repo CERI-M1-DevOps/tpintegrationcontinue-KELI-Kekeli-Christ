@@ -8,10 +8,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: |
-            ~/.m2/repository
+            ~/.m2
           key: maven-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             maven-${{ runner.os }}-
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
