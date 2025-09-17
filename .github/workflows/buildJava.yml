@@ -14,4 +14,4 @@ jobs:
           java-version: '21'
 
       - name: Construction du package avec Maven
-        run: mvn -B package --file pom.xml
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar-Dsonar.projectKey=$(echo ${{ github.repository }} | sed 's-/-_-')
