@@ -277,9 +277,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
     @Test
     void modifiePremierPremierElementListeUnElement() {
-        listeATester.ajout(42);
-        listeATester.modifiePremier(42, 43);
-        assertEquals("ListeSimple(Noeud(43))", listeATester.toString());
-        assertEquals(1, listeATester.getSize());
+        listeATester.ajout(1);
+        listeATester.ajout(2);
+        listeATester.ajout(3);
+        listeATester.modifiePremier(400, 42);
+        assertEquals("ListeSimple(Noeud(3), Noeud(2), Noeud(1))", listeATester.toString());
     }
 }
