@@ -12,24 +12,44 @@ jobs:
       issues: write
       actions: write
       repository-projects: write
-      pages: write
+      pages: write  # Assurez-vous que cette permission est présente pour déployer sur GitHub Pages
 
     steps:
+      # Étape 1: Checkout du code
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Étape 2: Installation de Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'corretto'
           java-version: '21'
 
+      # Étape 3: Génération de la documentation Javadoc
       - name: Générer la documentation Javadoc
         run: mvn -B javadoc:javadoc
 
-      - name: Déployement de  la documentation sur GitHub Pages
+      # Étape 4: Vérification des fichiers générés
+      - name: Liste des fichiers Javadoc générés
+        run: ls -la ./target/site/apidocs  # Assurez-vous que les fichiers existent ici
+
+      # Étape 5: Configuration de Git pour GitHub Actions
+      - name: Setup Git
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'github-actions@users.noreply.github.com'
+
+      # Étape 6: Assurez-vous que la branche gh-pages existe
+      - name: Assurer que la branche gh-pages existe
+        run: |
+          git fetch origin
+          git checkout gh-pages || git checkout --orphan gh-pages  # Crée la branche si elle n'existe pas
+          git push origin gh-pages  # Pousse la branche pour la créer sur le remote
+
+      # Étape 7: Déploiement de la documentation sur GitHub Pages
+      - name: Déployer la documentation sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Utilisation du token pour l'authentification
+          publish_dir: ./target/site/apidocs  # Chemin vers les fichiers générés de la documentation
