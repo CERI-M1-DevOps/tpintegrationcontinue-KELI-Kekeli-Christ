@@ -1,0 +1,27 @@
+name: Génération et livraison de la documentation
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  build-doc:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Générer la documentation Javadoc
+        run: mvn -B javadoc:javadoc
+
+      - name: Déployer la documentation sur GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/site/apidocs

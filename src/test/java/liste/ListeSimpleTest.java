@@ -81,6 +81,12 @@ import static org.junit.jupiter.api.Assertions.*;
         assertEquals(0, listeATester.getSize());
     }
 
+  /**
+* Description de la méthode
+* @param var1 description du premier paramètre
+* @param var2 description du second paramètre
+* @return Description de la valeur retournée
+*/
     @Test
      void supprimePremierEnPremierePosition() {
         listeATester.ajout(1);
