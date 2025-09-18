@@ -20,7 +20,12 @@ jobs:
       - name: Générer la documentation Javadoc
         run: mvn -B javadoc:javadoc
 
-      - name: Déployer la documentation sur GitHub Pages
+      - name: Configure Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Déployement de  la documentation sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
