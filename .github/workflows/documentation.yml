@@ -7,6 +7,13 @@ jobs:
   build-doc:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      actions: write
+      repository-projects: write
+      pages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,9 +26,14 @@ jobs:
 
       - name: Générer la documentation Javadoc
         run: mvn -B javadoc:javadoc
+        
+      - name : deplacement de la documentation
+        run: mv ./target/reports/apidocs ./public
 
-      - name: Déployer la documentation sur GitHub Pages
+
+      - name: Déployement de  la documentation sur GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./target/site/apidocs
+          publish_dir: ./public
+
